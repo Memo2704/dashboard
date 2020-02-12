@@ -4,8 +4,9 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.db import models
 
+
 class Note(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
     image = models.ImageField(blank=True, null=True)
     url = models.URLField(null=True, blank=True)

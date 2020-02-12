@@ -39,6 +39,7 @@ def delete_view(request, id):
             item_to_delete[0].delete()
     return redirect('/notes/list')
 
+
 def update_view(request, id):
     unique_note = get_object_or_404(Note, id=id)
     form = NoteModelForm(request.POST or None, request.FILES or None, instance=unique_note)
