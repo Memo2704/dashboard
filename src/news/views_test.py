@@ -1,8 +1,20 @@
 from django.shortcuts import render
 import re
+import unicodedata
 from bs4 import BeautifulSoup
 import requests
 requests.packages.urllib3.disable_warnings()
+
+
+# Function to convert lists to strings.
+def listToString(s):
+    # initialize an empty string
+    str1 = " "
+
+    # return string
+    return str1.join(s)
+
+    # return str
 
 
 def scrape():
@@ -11,13 +23,17 @@ def scrape():
     session.headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) "
                                      "AppleWebKit/537.36 (KHTML, like Gecko) "
                                      "Chrome/51.0.2704.103 Safari/537.36"}
-    url = 'https://www.lanacion.com.ar/'
+    url = 'https://www.nytimes.com/'
     content = session.get(url, verify=False).content
     soup = BeautifulSoup(content, "html.parser")
-    posts = soup.find_all('section', {"class": 'content-apertura-50 place-22'})
-    title_names = soup.findAll(class_='content-titulo')
-    for tile in title_names:
-        print(tile.text)
+    posts = soup.find('div', {"class": 'css-k2t2rg'})
+    for title in posts:
+        data = title.findAll('div', {'class': 'css-1ez5fsm esl82me1'})
+        for i in data:
+            print(i.text)
+    image_source = posts.find_all_next('div', {'class': 'for css-1g8bx4t'})
+    print(image_source)
+
 
     # for name in title_names:
     #     names = name.contents[1].renderContents()
