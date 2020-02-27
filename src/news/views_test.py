@@ -6,17 +6,6 @@ import requests
 requests.packages.urllib3.disable_warnings()
 
 
-# Function to convert lists to strings.
-def listToString(s):
-    # initialize an empty string
-    str1 = " "
-
-    # return string
-    return str1.join(s)
-
-    # return str
-
-
 def scrape():
 
     session = requests.Session()
@@ -27,31 +16,32 @@ def scrape():
     content = session.get(url, verify=False).content
     soup = BeautifulSoup(content, "html.parser")
     posts = soup.find('div', {"class": 'css-k2t2rg'})
+    title_list = []
     for title in posts:
         data = title.findAll('div', {'class': 'css-1ez5fsm esl82me1'})
         for i in data:
-            print(i.text)
-    image_source = posts.find_all_next('div', {'class': 'for css-1g8bx4t'})
-    print(image_source)
+            title_list.append(i.text)
 
+    link_list = []
+    for div in posts.find_all('div', {'class': 'css-6p6lnl'}):
+        for a in div.find_all('a'):
+            link_list.append(a['href'])
 
-    # for name in title_names:
-    #     names = name.contents[1].renderContents()
-    #     m = re.findall(r'>(.*?)<', str(names))
-    #     if m is None and m ==
-    #     print(m)
-    # for title in title_names:
-    #     print(title['volanta'])
-    # try:
-    #     for i in posts:
-    #         # link = i.find_all('a', {'class': 'sc-1pw4fyi-1 kwykKR js_link sc-1out364-0 fwjlmD'})[0]['href']
-    #         title = i.find('h2', {'class': 'content-titulo'}).text
-    #         # image_source = i.find('img', {'class': 'dv4r5q-2 iaqrWM'})['srcset']
-    #         # print(link)
-    #         print(title)
-    #         # print(image_source)
-    # except TypeError as e:
-    #     print(e)
+    images = soup.find_all('img', {'src': re.compile('.jpg')})
+    images_source = []
+    for image in images:
+        images_source.append(image['src']+'\n')
+        elements_source = map(unicode.strip, images_source)
 
-
+    # convert the lists of data into a dict
+    d1 = {}
+    d1.setdefault('notice_1', []).append(title_list[0])
+    d1.setdefault('notice_1', []).append(link_list[0])
+    d1.setdefault('notice_1', []).append(elements_source[0])
+    d1.setdefault('notice_2', []).append(title_list[1], )
+    d1.setdefault('notice_2', []).append(link_list[1])
+    d1.setdefault('notice_2', []).append(elements_source[1])
+    d1.setdefault('notice_3', []).append(title_list[2])
+    d1.setdefault('notice_3', []).append(link_list[2])
+    d1.setdefault('notice_3', []).append(elements_source[2])
 scrape()
