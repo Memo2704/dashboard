@@ -36,7 +36,7 @@ def news_list(request):
     time_diff = now - user_p.last_scrape
     time_diff_hours = time_diff / timedelta(minutes=60)
     next_scrape = 24 - time_diff_hours
-    if time_diff_hours <= 24:
+    if next_scrape <= 24:
         hide_me = True
     else:
         hide_me = False
@@ -47,6 +47,7 @@ def news_list(request):
         'next_scrape': math.ceil(next_scrape)
     }
     return render(request, 'news/home.html', context)
+
 
 def scrape(request):
     local_filename = ''

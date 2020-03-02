@@ -9,15 +9,17 @@
 <body>
 <div class="jumbotron">
     <h1 class="display-4">Welcome to your Dashboard!</h1>
+    {% if hide_me == False %}
     <p class="lead">This is your main page, and it will show you the top news of the day.</p>
-    <hr class="my-4">
+     <hr class="my-4">
     <p class="lead"></p>
-    <p>{% if hide_me == True %} Your next scrape is in {{ next_scrape }} hours.</p>
     <form method="POST" action="{% url 'scrape' %}">
         {% csrf_token %}
         <button class="btn btn-primary btn-lg" role="button">Get my news</button>
     </form>
 </div>
+        {% else %}
+    <p> Your next scrape is in {{ next_scrape }} hours.</p>
     {% endif %}
     <div class="container-fluid">
         <div class="row">
