@@ -1,10 +1,11 @@
 from django.shortcuts import render
-
+from django.http.response import HttpResponse
 from rest_framework.response import Response
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 
 from .models import Company
-
+from .as_dash import dispatcher
 
 def company_article_list(request):
     return render(request, "finance/plotty.html", {})
@@ -29,3 +30,11 @@ class ChartData(APIView):
         }
 
         return Response(data)
+
+
+def dash(request, **kwargs):
+    return HttpResponse(dispatcher(request))
+
+@csrf_exempt
+def dash_ajax(request):
+    return HttpResponse(dispatcher(request), content_type='application/json')

@@ -17,17 +17,19 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
-
-from news.views import scrape, news_list
-from finance.views import company_article_list, ChartData
+from .views import home
+from news.views import scrape
+from finance.views import company_article_list, ChartData, dash, dash_ajax
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^notes/', include('notepad.urls', namespace='notes')),
     url(r'^scrape/', scrape, name='scrape'),
-    url(r'^home/', news_list, name='home'),
+    url(r'^home/', home, name='home'),
     url(r'^companies/', company_article_list, name='companies'),
     url(r'^api/chart/data/$', ChartData.as_view(), name='api-chart-data'),
+    url(r'^_dash', dash_ajax),
+    url(r'^dash/', dash)
 ]
 
 if settings.DEBUG:

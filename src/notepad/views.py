@@ -14,7 +14,7 @@ def create_view(request):
     if form.is_valid():
         form.instance.user = request.user
         form.save()
-        return redirect('/')
+        return redirect('/home/')
 
     context = {
         'form': form
@@ -37,7 +37,7 @@ def delete_view(request, id):
     if item_to_delete.exists():
         if request.user == item_to_delete[0].user:
             item_to_delete[0].delete()
-    return redirect('/notes/list')
+    return redirect('/home/')
 
 
 def update_view(request, id):
@@ -46,7 +46,7 @@ def update_view(request, id):
     if form.is_valid():
         form.instance.user = request.user
         form.save()
-        return redirect('/')
+        return redirect('/home/')
 
     context = {
         'form': form
